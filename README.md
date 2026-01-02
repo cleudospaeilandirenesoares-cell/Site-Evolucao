@@ -1,8 +1,8 @@
 # Project Build Guide
 
-[![CI](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml/badge.svg)](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml)  
+[![CI](https://github.com/cleudospaeilandirenesoares-cell/Site-Evolucao/actions/workflows/ci.yml/badge.svg)](https://github.com/cleudospaeilandirenesoares-cell/Site-Evolucao/actions/workflows/ci.yml)  
 
-> Substitua `<OWNER>/<REPO>` pelo caminho do repositório no GitHub para ativar o badge.
+> Repositório configurado: `cleudospaeilandirenesoares-cell/Site-Evolucao`
 
 ## Tech Stack
 
