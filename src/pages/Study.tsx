@@ -1,0 +1,501 @@
+cimport { Layout } from '@/components/Layout';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { 
+  BookOpen, 
+  Brain, 
+  Clock, 
+  FileText, 
+  GraduationCap, 
+  Heart, 
+  Library, 
+  Plus, 
+  Quote, 
+  Search, 
+  Timer, 
+  Trophy,
+  Zap,
+  Target,
+  TrendingUp,
+  Calendar,
+  Star,
+  Award,
+  Bookmark,
+  Edit,
+  Play,
+  Pause,
+  RotateCcw,
+  Volume2,
+  Settings,
+  Download,
+  Upload,
+  Filter,
+  SortAsc,
+  Eye,
+  CheckCircle2,
+  Clock3,
+  Flame,
+  BarChart3
+} from 'lucide-react';
+
+const StudyPage = () => {
+  return (
+    <Layout>
+      <div className={'space-y-6'}>
+        {/* Header */}
+        <div className={'flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0'}>
+          <div>
+            <h1 className={'text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent'}>
+              Centro de Estudos
+            </h1>
+            <p className={'text-muted-foreground mt-1'}>
+              Desenvolva seu intelecto e expanda seus conhecimentos
+            </p>
+          </div>
+          
+          <div className={'flex items-center space-x-2'}>
+            <Button className={'gradient-primary text-white border-0'}>
+              <Plus className={'h-4 w-4 mr-2'} />
+              Novo Conteúdo
+            </Button>
+          </div>
+        </div>
+
+        {/* Quick Stats */}
+        <div className={'grid grid-cols-1 md:grid-cols-4 gap-4'}>
+          <Card>
+            <CardHeader className={'flex flex-row items-center justify-between space-y-0 pb-2'}>
+              <CardTitle className={'text-sm font-medium'}>Tempo Hoje</CardTitle>
+              <Clock className={'h-4 w-4 text-muted-foreground'} />
+            </CardHeader>
+            <CardContent>
+              <div className={'text-2xl font-bold'}>2h 45m</div>
+              <p className={'text-xs text-muted-foreground'}>+15min vs ontem</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className={'flex flex-row items-center justify-between space-y-0 pb-2'}>
+              <CardTitle className={'text-sm font-medium'}>Flashcards</CardTitle>
+              <Brain className={'h-4 w-4 text-muted-foreground'} />
+            </CardHeader>
+            <CardContent>
+              <div className={'text-2xl font-bold'}>47</div>
+              <p className={'text-xs text-muted-foreground'}>Para revisar hoje</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className={'flex flex-row items-center justify-between space-y-0 pb-2'}>
+              <CardTitle className={'text-sm font-medium'}>Sequência</CardTitle>
+              <Flame className={'h-4 w-4 text-muted-foreground'} />
+            </CardHeader>
+            <CardContent>
+              <div className={'text-2xl font-bold'}>12</div>
+              <p className={'text-xs text-muted-foreground'}>Dias consecutivos</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className={'flex flex-row items-center justify-between space-y-0 pb-2'}>
+              <CardTitle className={'text-sm font-medium'}>Nível</CardTitle>
+              <Trophy className={'h-4 w-4 text-muted-foreground'} />
+            </CardHeader>
+            <CardContent>
+              <div className={'text-2xl font-bold'}>Avançado</div>
+              <p className={'text-xs text-muted-foreground'}>2.847 XP</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Study Sections */}
+        <div className={'grid grid-cols-1 lg:grid-cols-2 gap-6'}>
+          
+          {/* Flashcards */}
+          <Card className={'hover:shadow-lg transition-shadow'}>
+            <CardHeader>
+              <CardTitle className={'flex items-center space-x-2'}>
+                <Brain className={'h-5 w-5 text-blue-500'} />
+                <span>Flashcards Inteligentes</span>
+                <Badge variant={'secondary'}>47 pendentes</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className={'space-y-4'}>
+              <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
+                <Brain className={'h-12 w-12 mx-auto text-blue-500 opacity-50'} />
+                <div className={'space-y-2'}>
+                  <h3 className={'text-lg font-semibold'}>Sistema de Flashcards com IA</h3>
+                  <p className={'text-sm text-muted-foreground leading-relaxed'}>
+                    <strong>Funcionalidades Planejadas:</strong><br/>
+                    • <strong>Algoritmo de Repetição Espaçada:</strong> Sistema inteligente que calcula quando revisar cada card baseado na dificuldade e histórico de acertos<br/>
+                    • <strong>Categorias Personalizadas:</strong> Organize por matérias (Inglês, História, Medicina, etc.) com cores e ícones únicos<br/>
+                    • <strong>Criação Rápida:</strong> Interface intuitiva para criar cards com texto, imagens, áudio e até LaTeX para fórmulas<br/>
+                    • <strong>Modos de Estudo:</strong> Modo Aprendizado (novos cards), Revisão (cards antigos), Teste Rápido e Maratona<br/>
+                    • <strong>Estatísticas Avançadas:</strong> Taxa de acerto por categoria, tempo médio de resposta, curva de esquecimento<br/>
+                    • <strong>Gamificação:</strong> XP por card correto, streaks, badges especiais, ranking mensal<br/>
+                    • <strong>Sincronização:</strong> Backup automático e sincronização entre dispositivos<br/>
+                    • <strong>Compartilhamento:</strong> Compartilhe decks com amigos ou baixe decks da comunidade<br/>
+                    • <strong>Modo Offline:</strong> Estude mesmo sem internet, sincroniza quando conectar<br/>
+                    • <strong>Relatórios:</strong> Gráficos de progresso, previsão de domínio do conteúdo, análise de performance
+                  </p>
+                </div>
+              </div>
+              <div className={'flex space-x-2'}>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Play className={'h-4 w-4 mr-2'} />
+                  Iniciar Revisão
+                </Button>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Plus className={'h-4 w-4 mr-2'} />
+                  Criar Deck
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Knowledge Quiz */}
+          <Card className={'hover:shadow-lg transition-shadow'}>
+            <CardHeader>
+              <CardTitle className={'flex items-center space-x-2'}>
+                <GraduationCap className={'h-5 w-5 text-green-500'} />
+                <span>Conhecimentos Gerais</span>
+                <Badge variant={'secondary'}>Quiz diário</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className={'space-y-4'}>
+              <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
+                <GraduationCap className={'h-12 w-12 mx-auto text-green-500 opacity-50'} />
+                <div className={'space-y-2'}>
+                  <h3 className={'text-lg font-semibold'}>Quiz Inteligente de Conhecimentos</h3>
+                  <p className={'text-sm text-muted-foreground leading-relaxed'}>
+                    <strong>Funcionalidades Planejadas:</strong><br/>
+                    • <strong>Quiz Diário Personalizado:</strong> 10-20 perguntas adaptadas ao seu nível e interesses<br/>
+                    • <strong>Categorias Diversas:</strong> História Mundial, Ciências, Geografia, Atualidades, Arte, Literatura, Tecnologia<br/>
+                    • <strong>Níveis de Dificuldade:</strong> Iniciante, Intermediário, Avançado, Expert com progressão automática<br/>
+                    • <strong>Banco de Perguntas Expansível:</strong> +10.000 perguntas atualizadas constantemente<br/>
+                    • <strong>Sistema de Pontuação:</strong> Pontos por acerto, bônus por sequência, multiplicadores especiais<br/>
+                    • <strong>Ranking Pessoal:</strong> Acompanhe sua evolução mensal e anual<br/>
+                    • <strong>Explicações Detalhadas:</strong> Cada resposta vem com explicação educativa e links para aprofundamento<br/>
+                    • <strong>Desafios Especiais:</strong> Temas da semana, quiz de efemérides, desafios relâmpago<br/>
+                    • <strong>Modo Competitivo:</strong> Compare-se com outros usuários (opcional)<br/>
+                    • <strong>Certificados:</strong> Conquiste certificados por domínio em áreas específicas<br/>
+                    • <strong>Revisão Inteligente:</strong> Sistema revisa tópicos onde você teve mais dificuldade
+                  </p>
+                </div>
+              </div>
+              <div className={'flex space-x-2'}>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Play className={'h-4 w-4 mr-2'} />
+                  Quiz Hoje
+                </Button>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <BarChart3 className={'h-4 w-4 mr-2'} />
+                  Estatísticas
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Personal Library */}
+          <Card className={'hover:shadow-lg transition-shadow'}>
+            <CardHeader>
+              <CardTitle className={'flex items-center space-x-2'}>
+                <Library className={'h-5 w-5 text-purple-500'} />
+                <span>Biblioteca Pessoal</span>
+                <Badge variant={'secondary'}>12 livros</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className={'space-y-4'}>
+              <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
+                <Library className={'h-12 w-12 mx-auto text-purple-500 opacity-50'} />
+                <div className={'space-y-2'}>
+                  <h3 className={'text-lg font-semibold'}>Biblioteca Digital Inteligente</h3>
+                  <p className={'text-sm text-muted-foreground leading-relaxed'}>
+                    <strong>Funcionalidades Planejadas:</strong><br/>
+                    • <strong>Catálogo Pessoal:</strong> Organize livros por status (Lendo, Para Ler, Concluído, Abandonado)<br/>
+                    • <strong>Tracking Detalhado:</strong> Páginas lidas, tempo de leitura, velocidade média, progresso visual<br/>
+                    • <strong>Sistema de Notas:</strong> Destaque trechos importantes, faça anotações, crie resumos por capítulo<br/>
+                    • <strong>Metas de Leitura:</strong> Defina metas mensais/anuais, acompanhe progresso com gráficos<br/>
+                    • <strong>Avaliação Pessoal:</strong> Sistema de estrelas, resenhas pessoais, tags personalizadas<br/>
+                    • <strong>Recomendações IA:</strong> Sugestões baseadas no seu histórico e preferências<br/>
+                    • <strong>Citações Favoritas:</strong> Salve trechos marcantes com contexto e referência<br/>
+                    • <strong>Estatísticas Avançadas:</strong> Gêneros mais lidos, autores favoritos, evolução da velocidade<br/>
+                    • <strong>Lista de Desejos:</strong> Wishlist com alertas de promoções e lançamentos<br/>
+                    • <strong>Clube do Livro Virtual:</strong> Compartilhe leituras e discussões com amigos<br/>
+                    • <strong>Integração APIs:</strong> Busca automática de informações (Goodreads, Google Books)<br/>
+                    • <strong>Relatórios Mensais:</strong> Resumo das leituras, insights e conquistas
+                  </p>
+                </div>
+              </div>
+              <div className={'flex space-x-2'}>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <BookOpen className={'h-4 w-4 mr-2'} />
+                  Meus Livros
+                </Button>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Search className={'h-4 w-4 mr-2'} />
+                  Buscar Livro
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Vocabulary Builder */}
+          <Card className={'hover:shadow-lg transition-shadow'}>
+            <CardHeader>
+              <CardTitle className={'flex items-center space-x-2'}>
+                <FileText className={'h-5 w-5 text-orange-500'} />
+                <span>Vocabulário</span>
+                <Badge variant={'secondary'}>156 palavras</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className={'space-y-4'}>
+              <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
+                <FileText className={'h-12 w-12 mx-auto text-orange-500 opacity-50'} />
+                <div className={'space-y-2'}>
+                  <h3 className={'text-lg font-semibold'}>Construtor de Vocabulário Avançado</h3>
+                  <p className={'text-sm text-muted-foreground leading-relaxed'}>
+                    <strong>Funcionalidades Planejadas:</strong><br/>
+                    • <strong>Palavra do Dia:</strong> Nova palavra diariamente com definição, etimologia e exemplos<br/>
+                    • <strong>Múltiplos Idiomas:</strong> Português, Inglês, Espanhol, Francês com traduções cruzadas<br/>
+                    • <strong>Contexto Inteligente:</strong> Exemplos de uso em frases reais, sinônimos e antônimos<br/>
+                    • <strong>Níveis de Domínio:</strong> Marque palavras como Aprendendo, Conhecido, Dominado<br/>
+                    • <strong>Revisão Espaçada:</strong> Sistema inteligente para revisar palavras esquecidas<br/>
+                    • <strong>Categorias Temáticas:</strong> Organize por temas (Negócios, Acadêmico, Cotidiano, Técnico)<br/>
+                    • <strong>Pronúncia Audio:</strong> Áudio nativo para aprender pronúncia correta<br/>
+                    • <strong>Jogos de Vocabulário:</strong> Quiz, caça-palavras, associação, completar frases<br/>
+                    • <strong>Estatísticas Detalhadas:</strong> Palavras aprendidas por mês, taxa de retenção, progresso por idioma<br/>
+                    • <strong>Flashcards Integrados:</strong> Converta palavras em flashcards automaticamente<br/>
+                    • <strong>Importação de Textos:</strong> Extraia palavras desconhecidas de textos que você lê<br/>
+                    • <strong>Metas Personalizadas:</strong> Defina quantas palavras quer aprender por semana/mês
+                  </p>
+                </div>
+              </div>
+              <div className={'flex space-x-2'}>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Plus className={'h-4 w-4 mr-2'} />
+                  Nova Palavra
+                </Button>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <RotateCcw className={'h-4 w-4 mr-2'} />
+                  Revisar
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Courses & Certifications */}
+          <Card className={'hover:shadow-lg transition-shadow'}>
+            <CardHeader>
+              <CardTitle className={'flex items-center space-x-2'}>
+                <Award className={'h-5 w-5 text-yellow-500'} />
+                <span>Cursos & Certificações</span>
+                <Badge variant={'secondary'}>3 ativos</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className={'space-y-4'}>
+              <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
+                <Award className={'h-12 w-12 mx-auto text-yellow-500 opacity-50'} />
+                <div className={'space-y-2'}>
+                  <h3 className={'text-lg font-semibold'}>Gerenciador de Cursos Profissional</h3>
+                  <p className={'text-sm text-muted-foreground leading-relaxed'}>
+                    <strong>Funcionalidades Planejadas:</strong><br/>
+                    • <strong>Tracking Completo:</strong> Acompanhe progresso por módulo, aula, exercício e projeto<br/>
+                    • <strong>Múltiplas Plataformas:</strong> Integração com Coursera, Udemy, Khan Academy, YouTube<br/>
+                    • <strong>Cronograma Inteligente:</strong> IA sugere horários de estudo baseado na sua rotina<br/>
+                    • <strong>Certificados Digitais:</strong> Galeria de certificados conquistados com validação<br/>
+                    • <strong>Metas de Conclusão:</strong> Defina prazos realistas com lembretes automáticos<br/>
+                    • <strong>Notas por Aula:</strong> Sistema de anotações sincronizado com timestamps de vídeo<br/>
+                    • <strong>Projetos Práticos:</strong> Organize e acompanhe projetos de cada curso<br/>
+                    • <strong>Networking:</strong> Conecte-se com outros estudantes dos mesmos cursos<br/>
+                    • <strong>Avaliação de ROI:</strong> Calcule retorno do investimento em educação<br/>
+                    • <strong>Playlist Personalizada:</strong> Crie sequências de aprendizado customizadas<br/>
+                    • <strong>Relatórios de Progresso:</strong> Dashboards com tempo investido, skills adquiridas<br/>
+                    • <strong>Recomendações:</strong> Sugestões de próximos cursos baseado no seu perfil
+                  </p>
+                </div>
+              </div>
+              <div className={'flex space-x-2'}>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Play className={'h-4 w-4 mr-2'} />
+                  Continuar
+                </Button>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Plus className={'h-4 w-4 mr-2'} />
+                  Novo Curso
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Pomodoro Timer */}
+          <Card className={'hover:shadow-lg transition-shadow'}>
+            <CardHeader>
+              <CardTitle className={'flex items-center space-x-2'}>
+                <Timer className={'h-5 w-5 text-red-500'} />
+                <span>Pomodoro Inteligente</span>
+                <Badge variant={'secondary'}>Ativo</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className={'space-y-4'}>
+              <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
+                <Timer className={'h-12 w-12 mx-auto text-red-500 opacity-50'} />
+                <div className={'space-y-2'}>
+                  <h3 className={'text-lg font-semibold'}>Sistema Pomodoro Avançado</h3>
+                  <p className={'text-sm text-muted-foreground leading-relaxed'}>
+                    <strong>Funcionalidades Planejadas:</strong><br/>
+                    • <strong>Timer Personalizável:</strong> Ajuste duração de foco (25min padrão) e pausas (5/15min)<br/>
+                    • <strong>Modos de Estudo:</strong> Pomodoro Clássico, Ultradian (90min), Timeboxing personalizado<br/>
+                    • <strong>Categorização:</strong> Associe sessões a matérias específicas para tracking detalhado<br/>
+                    • <strong>Estatísticas Profundas:</strong> Produtividade por horário, dia da semana, matéria<br/>
+                    • <strong>Bloqueio de Distrações:</strong> Integração com bloqueadores de sites e apps<br/>
+                    • <strong>Sons Ambientes:</strong> Biblioteca de sons (chuva, café, natureza) para concentração<br/>
+                    • <strong>Metas Diárias:</strong> Defina quantos pomodoros quer completar por dia<br/>
+                    • <strong>Análise de Performance:</strong> Identifique seus horários mais produtivos<br/>
+                    • <strong>Integração com Tarefas:</strong> Conecte pomodoros com suas metas e hábitos<br/>
+                    • <strong>Lembretes Inteligentes:</strong> Notificações para pausas, hidratação, alongamento<br/>
+                    • <strong>Modo Grupo:</strong> Sessões de estudo sincronizadas com amigos<br/>
+                    • <strong>Relatórios Semanais:</strong> Insights sobre padrões de produtividade e sugestões
+                  </p>
+                </div>
+              </div>
+              <div className={'flex space-x-2'}>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Play className={'h-4 w-4 mr-2'} />
+                  Iniciar Foco
+                </Button>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Settings className={'h-4 w-4 mr-2'} />
+                  Configurar
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Study Notes */}
+          <Card className={'hover:shadow-lg transition-shadow'}>
+            <CardHeader>
+              <CardTitle className={'flex items-center space-x-2'}>
+                <Edit className={'h-5 w-5 text-indigo-500'} />
+                <span>Notas de Estudo</span>
+                <Badge variant={'secondary'}>24 notas</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className={'space-y-4'}>
+              <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
+                <Edit className={'h-12 w-12 mx-auto text-indigo-500 opacity-50'} />
+                <div className={'space-y-2'}>
+                  <h3 className={'text-lg font-semibold'}>Sistema de Notas Inteligente</h3>
+                  <p className={'text-sm text-muted-foreground leading-relaxed'}>
+                    <strong>Funcionalidades Planejadas:</strong><br/>
+                    • <strong>Editor Rico:</strong> Markdown, LaTeX para fórmulas, desenhos, tabelas, código<br/>
+                    • <strong>Organização Hierárquica:</strong> Pastas, subpastas, tags coloridas, favoritos<br/>
+                    • <strong>Busca Avançada:</strong> Busca por conteúdo, tags, data, tipo de arquivo<br/>
+                    • <strong>Templates Inteligentes:</strong> Modelos para diferentes tipos de estudo (resumos, mapas mentais)<br/>
+                    • <strong>Sincronização em Tempo Real:</strong> Acesse de qualquer dispositivo, backup automático<br/>
+                    • <strong>Colaboração:</strong> Compartilhe notas, edição colaborativa, comentários<br/>
+                    • <strong>Anexos Multimídia:</strong> Imagens, áudios, vídeos, PDFs integrados<br/>
+                    • <strong>Versioning:</strong> Histórico de alterações, restauração de versões anteriores<br/>
+                    • <strong>Exportação Flexível:</strong> PDF, Word, HTML, Markdown com formatação<br/>
+                    • <strong>OCR Integrado:</strong> Extraia texto de imagens e PDFs automaticamente<br/>
+                    • <strong>Links Inteligentes:</strong> Conecte notas relacionadas, crie redes de conhecimento<br/>
+                    • <strong>Modo Apresentação:</strong> Transforme notas em slides para revisão
+                  </p>
+                </div>
+              </div>
+              <div className={'flex space-x-2'}>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Plus className={'h-4 w-4 mr-2'} />
+                  Nova Nota
+                </Button>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Search className={'h-4 w-4 mr-2'} />
+                  Buscar
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Inspirational Quotes */}
+          <Card className={'hover:shadow-lg transition-shadow'}>
+            <CardHeader>
+              <CardTitle className={'flex items-center space-x-2'}>
+                <Quote className={'h-5 w-5 text-pink-500'} />
+                <span>Citações Inspiradoras</span>
+                <Badge variant={'secondary'}>89 salvas</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className={'space-y-4'}>
+              <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
+                <Quote className={'h-12 w-12 mx-auto text-pink-500 opacity-50'} />
+                <div className={'space-y-2'}>
+                  <h3 className={'text-lg font-semibold'}>Biblioteca de Sabedoria</h3>
+                  <p className={'text-sm text-muted-foreground leading-relaxed'}>
+                    <strong>Funcionalidades Planejadas:</strong><br/>
+                    • <strong>Citação do Dia:</strong> Frase inspiradora diária com contexto histórico<br/>
+                    • <strong>Coleção Pessoal:</strong> Salve suas citações favoritas com tags personalizadas<br/>
+                    • <strong>Categorias Temáticas:</strong> Sucesso, Sabedoria, Motivação, Amor, Filosofia, Ciência<br/>
+                    • <strong>Autores Famosos:</strong> Biblioteca com milhares de citações de grandes pensadores<br/>
+                    • <strong>Busca Inteligente:</strong> Encontre citações por tema, autor, palavra-chave, sentimento<br/>
+                    • <strong>Compartilhamento Social:</strong> Crie cards visuais para redes sociais<br/>
+                    • <strong>Reflexões Pessoais:</strong> Adicione suas próprias interpretações e pensamentos<br/>
+                    • <strong>Modo Meditação:</strong> Contemple uma citação por alguns minutos diariamente<br/>
+                    • <strong>Wallpapers Personalizados:</strong> Transforme citações em papéis de parede<br/>
+                    • <strong>Lembretes Motivacionais:</strong> Receba citações em momentos específicos do dia<br/>
+                    • <strong>Análise de Humor:</strong> IA sugere citações baseadas no seu estado emocional<br/>
+                    • <strong>Histórico de Favoritas:</strong> Veja como suas preferências evoluem ao longo do tempo
+                  </p>
+                </div>
+              </div>
+              <div className={'flex space-x-2'}>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Heart className={'h-4 w-4 mr-2'} />
+                  Favoritas
+                </Button>
+                <Button className={'flex-1'} variant={'outline'}>
+                  <Zap className={'h-4 w-4 mr-2'} />
+                  Inspirar-me
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Study Dashboard */}
+        <Card>
+          <CardHeader>
+            <CardTitle className={'flex items-center space-x-2'}>
+              <BarChart3 className={'h-5 w-5'} />
+              <span>Dashboard de Estudos</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
+              <BarChart3 className={'h-12 w-12 mx-auto text-primary opacity-50'} />
+              <div className={'space-y-2'}>
+                <h3 className={'text-lg font-semibold'}>Central de Inteligência dos Estudos</h3>
+                <p className={'text-sm text-muted-foreground leading-relaxed'}>
+                  <strong>Funcionalidades do Dashboard:</strong><br/>
+                  • <strong>Visão 360°:</strong> Tempo total estudado, sessões completadas, streak atual, XP ganho<br/>
+                  • <strong>Gráficos Interativos:</strong> Progresso semanal/mensal, distribuição por matéria, horários mais produtivos<br/>
+                  • <strong>Metas Visuais:</strong> Progresso das metas com barras coloridas e percentuais<br/>
+                  • <strong>Conquistas Recentes:</strong> Badges desbloqueados, recordes batidos, marcos alcançados<br/>
+                  • <strong>Próximas Ações:</strong> Flashcards para revisar, deadlines próximos, sessões agendadas<br/>
+                  • <strong>Análise de Performance:</strong> Identificação de pontos fortes e áreas para melhoria<br/>
+                  • <strong>Comparativo Temporal:</strong> Compare performance atual com períodos anteriores<br/>
+                  • <strong>Recomendações IA:</strong> Sugestões personalizadas para otimizar seus estudos<br/>
+                  • <strong>Integração Total:</strong> Dados de todas as seções unificados em uma visão clara<br/>
+                  • <strong>Exportação de Relatórios:</strong> Gere relatórios detalhados para acompanhamento
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </Layout>
+  );
+};
+
+export default StudyPage;
