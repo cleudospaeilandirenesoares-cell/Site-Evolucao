@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 // use synchronous fireEvent with fake timers to avoid user-event timing issues in tests
 import { describe, it, beforeEach, vi, expect } from 'vitest';
 import Pomodoro from '@/components/Pomodoro';
@@ -19,12 +19,12 @@ describe('Pomodoro', () => {
     // initial should be 00:00 because focusMinutes=0
     expect(screen.getByText(/00:00/)).toBeInTheDocument();
 
-    // start
+    // start and advance timers (wrapped in act to avoid act warnings)
     const startBtn = screen.getByRole('button', { name: /Iniciar/i });
-    fireEvent.click(startBtn);
-
-    // advance timers a bit
-    vi.advanceTimersByTime(1500);
+    act(() => {
+      fireEvent.click(startBtn);
+      vi.advanceTimersByTime(1500);
+    });
 
     // With 0s duration it should immediately switch mode to break and set break duration (0) -> 00:00
     expect(screen.getAllByText(/00:00/).length).toBeGreaterThanOrEqual(1);
@@ -34,23 +34,30 @@ describe('Pomodoro', () => {
     render(<Pomodoro focusMinutes={0} breakMinutes={1} />);
 
     const startBtn = screen.getByRole('button', { name: /Iniciar/i });
-    fireEvent.click(startBtn);
-
-    vi.advanceTimersByTime(1000);
+    act(() => {
+      fireEvent.click(startBtn);
+      vi.advanceTimersByTime(1000);
+    });
 
     const pauseBtn = screen.getByRole('button', { name: /Pausar/i });
-    fireEvent.click(pauseBtn);
+    act(() => {
+      fireEvent.click(pauseBtn);
+    });
 
     // capture the currently displayed time (mm:ss)
     const before = screen.getByText(/\d{2}:\d{2}/).textContent;
 
     // advance timers; since paused, no change
-    vi.advanceTimersByTime(5000);
+    act(() => {
+      vi.advanceTimersByTime(5000);
+    });
 
     expect(screen.getByText(before || '00:00')).toBeInTheDocument();
 
     const resetBtn = screen.getByRole('button', { name: /Reset/i });
-    fireEvent.click(resetBtn);
+    act(() => {
+      fireEvent.click(resetBtn);
+    });
 
     expect(screen.getByText(/00:00/)).toBeInTheDocument();
   });
