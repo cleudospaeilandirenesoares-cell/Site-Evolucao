@@ -42,6 +42,7 @@ import {
 
 import { FlashcardSystem } from '@/components/FlashcardSystem';
 import { LibrarySystem } from '@/components/LibrarySystem';
+import Pomodoro from '@/components/Pomodoro';
 
 const StudyPage = () => {
   return (
@@ -260,48 +261,10 @@ const StudyPage = () => {
           </Card>
 
           {/* Pomodoro Timer */}
-          <Card className={'hover:shadow-lg transition-shadow'}>
-            <CardHeader>
-              <CardTitle className={'flex items-center space-x-2'}>
-                <Timer className={'h-5 w-5 text-red-500'} />
-                <span>Pomodoro Inteligente</span>
-                <Badge variant={'secondary'}>Ativo</Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className={'space-y-4'}>
-              <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
-                <Timer className={'h-12 w-12 mx-auto text-red-500 opacity-50'} />
-                <div className={'space-y-2'}>
-                  <h3 className={'text-lg font-semibold'}>Sistema Pomodoro Avançado</h3>
-                  <p className={'text-sm text-muted-foreground leading-relaxed'}>
-                    <strong>Funcionalidades Planejadas:</strong><br/>
-                    • <strong>Timer Personalizável:</strong> Ajuste duração de foco (25min padrão) e pausas (5/15min)<br/>
-                    • <strong>Modos de Estudo:</strong> Pomodoro Clássico, Ultradian (90min), Timeboxing personalizado<br/>
-                    • <strong>Categorização:</strong> Associe sessões a matérias específicas para tracking detalhado<br/>
-                    • <strong>Estatísticas Profundas:</strong> Produtividade por horário, dia da semana, matéria<br/>
-                    • <strong>Bloqueio de Distrações:</strong> Integração com bloqueadores de sites e apps<br/>
-                    • <strong>Sons Ambientes:</strong> Biblioteca de sons (chuva, café, natureza) para concentração<br/>
-                    • <strong>Metas Diárias:</strong> Defina quantos pomodoros quer completar por dia<br/>
-                    • <strong>Análise de Performance:</strong> Identifique seus horários mais produtivos<br/>
-                    • <strong>Integração com Tarefas:</strong> Conecte pomodoros com suas metas e hábitos<br/>
-                    • <strong>Lembretes Inteligentes:</strong> Notificações para pausas, hidratação, alongamento<br/>
-                    • <strong>Modo Grupo:</strong> Sessões de estudo sincronizadas com amigos<br/>
-                    • <strong>Relatórios Semanais:</strong> Insights sobre padrões de produtividade e sugestões
-                  </p>
-                </div>
-              </div>
-              <div className={'flex space-x-2'}>
-                <Button className={'flex-1'} variant={'outline'}>
-                  <Play className={'h-4 w-4 mr-2'} />
-                  Iniciar Foco
-                </Button>
-                <Button className={'flex-1'} variant={'outline'}>
-                  <Settings className={'h-4 w-4 mr-2'} />
-                  Configurar
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Integrado: Pomodoro */}
+          <div>
+            <Pomodoro />
+          </div>
 
           {/* Study Notes */}
           <Card className={'hover:shadow-lg transition-shadow'}>
