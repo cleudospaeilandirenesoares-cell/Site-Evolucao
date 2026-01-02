@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 // use synchronous fireEvent with fake timers to avoid user-event timing issues in tests
-import { describe, it, beforeEach, vi, expect } from 'vitest';
+import { describe, it, beforeEach, afterEach, vi, expect } from 'vitest';
 import Pomodoro from '@/components/Pomodoro';
 
 describe('Pomodoro', () => {
