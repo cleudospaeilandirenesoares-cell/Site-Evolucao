@@ -1,4 +1,4 @@
-cimport { Layout } from '@/components/Layout';
+import { Layout } from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -39,6 +39,9 @@ import {
   Flame,
   BarChart3
 } from 'lucide-react';
+
+import { FlashcardSystem } from '@/components/FlashcardSystem';
+import { LibrarySystem } from '@/components/LibrarySystem';
 
 const StudyPage = () => {
   return (
@@ -114,46 +117,10 @@ const StudyPage = () => {
         <div className={'grid grid-cols-1 lg:grid-cols-2 gap-6'}>
           
           {/* Flashcards */}
-          <Card className={'hover:shadow-lg transition-shadow'}>
-            <CardHeader>
-              <CardTitle className={'flex items-center space-x-2'}>
-                <Brain className={'h-5 w-5 text-blue-500'} />
-                <span>Flashcards Inteligentes</span>
-                <Badge variant={'secondary'}>47 pendentes</Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className={'space-y-4'}>
-              <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
-                <Brain className={'h-12 w-12 mx-auto text-blue-500 opacity-50'} />
-                <div className={'space-y-2'}>
-                  <h3 className={'text-lg font-semibold'}>Sistema de Flashcards com IA</h3>
-                  <p className={'text-sm text-muted-foreground leading-relaxed'}>
-                    <strong>Funcionalidades Planejadas:</strong><br/>
-                    • <strong>Algoritmo de Repetição Espaçada:</strong> Sistema inteligente que calcula quando revisar cada card baseado na dificuldade e histórico de acertos<br/>
-                    • <strong>Categorias Personalizadas:</strong> Organize por matérias (Inglês, História, Medicina, etc.) com cores e ícones únicos<br/>
-                    • <strong>Criação Rápida:</strong> Interface intuitiva para criar cards com texto, imagens, áudio e até LaTeX para fórmulas<br/>
-                    • <strong>Modos de Estudo:</strong> Modo Aprendizado (novos cards), Revisão (cards antigos), Teste Rápido e Maratona<br/>
-                    • <strong>Estatísticas Avançadas:</strong> Taxa de acerto por categoria, tempo médio de resposta, curva de esquecimento<br/>
-                    • <strong>Gamificação:</strong> XP por card correto, streaks, badges especiais, ranking mensal<br/>
-                    • <strong>Sincronização:</strong> Backup automático e sincronização entre dispositivos<br/>
-                    • <strong>Compartilhamento:</strong> Compartilhe decks com amigos ou baixe decks da comunidade<br/>
-                    • <strong>Modo Offline:</strong> Estude mesmo sem internet, sincroniza quando conectar<br/>
-                    • <strong>Relatórios:</strong> Gráficos de progresso, previsão de domínio do conteúdo, análise de performance
-                  </p>
-                </div>
-              </div>
-              <div className={'flex space-x-2'}>
-                <Button className={'flex-1'} variant={'outline'}>
-                  <Play className={'h-4 w-4 mr-2'} />
-                  Iniciar Revisão
-                </Button>
-                <Button className={'flex-1'} variant={'outline'}>
-                  <Plus className={'h-4 w-4 mr-2'} />
-                  Criar Deck
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Integrado: FlashcardSystem */}
+          <div>
+            <FlashcardSystem />
+          </div>
 
           {/* Knowledge Quiz */}
           <Card className={'hover:shadow-lg transition-shadow'}>
@@ -199,48 +166,10 @@ const StudyPage = () => {
           </Card>
 
           {/* Personal Library */}
-          <Card className={'hover:shadow-lg transition-shadow'}>
-            <CardHeader>
-              <CardTitle className={'flex items-center space-x-2'}>
-                <Library className={'h-5 w-5 text-purple-500'} />
-                <span>Biblioteca Pessoal</span>
-                <Badge variant={'secondary'}>12 livros</Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className={'space-y-4'}>
-              <div className={'bg-muted/50 p-6 rounded-lg text-center space-y-4'}>
-                <Library className={'h-12 w-12 mx-auto text-purple-500 opacity-50'} />
-                <div className={'space-y-2'}>
-                  <h3 className={'text-lg font-semibold'}>Biblioteca Digital Inteligente</h3>
-                  <p className={'text-sm text-muted-foreground leading-relaxed'}>
-                    <strong>Funcionalidades Planejadas:</strong><br/>
-                    • <strong>Catálogo Pessoal:</strong> Organize livros por status (Lendo, Para Ler, Concluído, Abandonado)<br/>
-                    • <strong>Tracking Detalhado:</strong> Páginas lidas, tempo de leitura, velocidade média, progresso visual<br/>
-                    • <strong>Sistema de Notas:</strong> Destaque trechos importantes, faça anotações, crie resumos por capítulo<br/>
-                    • <strong>Metas de Leitura:</strong> Defina metas mensais/anuais, acompanhe progresso com gráficos<br/>
-                    • <strong>Avaliação Pessoal:</strong> Sistema de estrelas, resenhas pessoais, tags personalizadas<br/>
-                    • <strong>Recomendações IA:</strong> Sugestões baseadas no seu histórico e preferências<br/>
-                    • <strong>Citações Favoritas:</strong> Salve trechos marcantes com contexto e referência<br/>
-                    • <strong>Estatísticas Avançadas:</strong> Gêneros mais lidos, autores favoritos, evolução da velocidade<br/>
-                    • <strong>Lista de Desejos:</strong> Wishlist com alertas de promoções e lançamentos<br/>
-                    • <strong>Clube do Livro Virtual:</strong> Compartilhe leituras e discussões com amigos<br/>
-                    • <strong>Integração APIs:</strong> Busca automática de informações (Goodreads, Google Books)<br/>
-                    • <strong>Relatórios Mensais:</strong> Resumo das leituras, insights e conquistas
-                  </p>
-                </div>
-              </div>
-              <div className={'flex space-x-2'}>
-                <Button className={'flex-1'} variant={'outline'}>
-                  <BookOpen className={'h-4 w-4 mr-2'} />
-                  Meus Livros
-                </Button>
-                <Button className={'flex-1'} variant={'outline'}>
-                  <Search className={'h-4 w-4 mr-2'} />
-                  Buscar Livro
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Integrado: LibrarySystem */}
+          <div>
+            <LibrarySystem />
+          </div>
 
           {/* Vocabulary Builder */}
           <Card className={'hover:shadow-lg transition-shadow'}>
