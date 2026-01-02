@@ -1,5 +1,9 @@
 # Project Build Guide
 
+[![CI](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml/badge.svg)](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml)  
+
+> Substitua `<OWNER>/<REPO>` pelo caminho do repositório no GitHub para ativar o badge.
+
 ## Tech Stack
 
 This project is built using the following technologies:
