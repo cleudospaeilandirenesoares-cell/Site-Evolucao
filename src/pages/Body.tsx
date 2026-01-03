@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Slider } from '@/components/ui/slider';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { storage } from '@/lib/storage';
 import { BodyMeasurement } from '@/types';
@@ -200,6 +200,9 @@ const Body = () => {
                 <DialogTitle>
                   {editingMeasurement ? 'Editar Medicao' : 'Nova Medicao'}
                 </DialogTitle>
+                <DialogDescription>
+                  Registre suas medidas corporais, autoavaliação e notas para acompanhar sua evolução.
+                </DialogDescription>
               </DialogHeader>
               
               <form onSubmit={handleSubmit} className={'space-y-6'}>
@@ -494,7 +497,7 @@ const Body = () => {
             ) : (
               <div className={'space-y-4'}>
                 {sortedMeasurements.map((measurement) => (
-                  <Card key={measurement.id} className={'hover:shadow-md transition-shadow'}>
+                  <Card key={measurement.id} data-testid={`measurement-card-${measurement.id}`} className={'hover:shadow-md transition-shadow'}>
                     <CardContent className={'p-4'}>
                       <div className={'flex items-start justify-between'}>
                         <div className={'flex-1'}>
@@ -572,7 +575,7 @@ const Body = () => {
                           
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <Button aria-label={`Excluir medicao ${measurement.date} ${measurement.id}`} variant={'outline'} size={'icon'} className={'text-destructive hover:text-destructive'}>
+                              <Button aria-label={`Excluir medicao ${measurement.date} ${measurement.id}`} data-testid={`delete-button-${measurement.id}`} variant={'outline'} size={'icon'} className={'text-destructive hover:text-destructive'}>
                                 <Trash2 className={'h-4 w-4'} />
                               </Button>
                             </AlertDialogTrigger>
@@ -589,6 +592,7 @@ const Body = () => {
                                 <AlertDialogAction 
                                   onClick={() => handleDelete(measurement.id)}
                                   aria-label={`Confirmar exclusao medicao ${measurement.id}`}
+                                  data-testid={`confirm-delete-${measurement.id}`}
                                   className={'bg-destructive text-destructive-foreground hover:bg-destructive/90'}
                                 >
                                   Excluir

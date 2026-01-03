@@ -181,6 +181,28 @@ All colors MUST be HSL.
     animation: glow-pulse 2s ease-in-out infinite;
   }
 
+  /* Progress shimmer */
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 1.2s linear infinite;
+    background-size: 200% 100%;
+  }
+
+  /* Small press effect utility */
+  .btn-press:active {
+    transform: scale(0.97);
+  }
+
+  /* Progress indicator niceties */
+  .progress-indicator {
+    transition: transform 650ms cubic-bezier(0.22,1,0.36,1);
+    will-change: transform;
+  }
+
   @keyframes success-bounce {
     0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
     40% { transform: translateY(-4px); }

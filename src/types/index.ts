@@ -209,8 +209,10 @@ export interface VocabularyWord {
   difficulty: 'easy' | 'medium' | 'hard';
   reviewCount: number;
   lastReviewed: string;
+  nextReviewAt?: string;
+  intervalDays?: number;
   createdAt: string;
-}
+} 
 
 export interface Course {
   id: string;

@@ -244,6 +244,12 @@ export class LocalStorageManager {
     try {
       const imported = JSON.parse(jsonData);
       this.data = { ...defaultData, ...imported, version: STORAGE_VERSION };
+
+      // Deep-merge nested study section to ensure missing arrays fall back to defaults
+      if (imported.study) {
+        this.data.study = { ...defaultStudyData, ...imported.study };
+      }
+
       this.saveData();
       return true;
     } catch (error) {
@@ -605,6 +611,72 @@ export class LocalStorageManager {
     return newResult;
   }
 
+  /**
+   * Return aggregated quiz statistics:
+   * - totalAttempts
+   * - averageScore (0-100)
+   * - bestScore
+   * - lastAttempt (YYYY-MM-DD or null)
+   * - byCategory: { [category]: { attempts, averageScore } }
+   */
+  public getQuizStats() {
+    const results = this.data.study.quizResults || [];
+    const totalAttempts = results.length;
+
+    if (totalAttempts === 0) {
+      return {
+        totalAttempts: 0,
+        averageScore: 0,
+        bestScore: 0,
+        lastAttempt: null,
+        byCategory: {},
+      };
+    }
+
+    const totalScore = results.reduce((sum, r) => sum + r.score, 0);
+    const averageScore = Math.round((totalScore / totalAttempts) * 10) / 10;
+    const bestScore = Math.max(...results.map(r => r.score));
+    const lastAttempt = results.slice(-1)[0].date || null;
+
+    const byCategory: Record<string, { attempts: number; averageScore: number }> = {};
+
+    results.forEach(r => {
+      const cat = r.category || 'general';
+      byCategory[cat] = byCategory[cat] || { attempts: 0, averageScore: 0 };
+      byCategory[cat].attempts += 1;
+      byCategory[cat].averageScore += r.score;
+    });
+
+    Object.keys(byCategory).forEach(cat => {
+      const info = byCategory[cat];
+      info.averageScore = Math.round((info.averageScore / info.attempts) * 10) / 10;
+    });
+
+    return {
+      totalAttempts,
+      averageScore,
+      bestScore,
+      lastAttempt,
+      byCategory,
+    };
+  }
+
+  // Pomodoro sessions
+  public getPomodoroSessions(): PomodoroSession[] {
+    return [...(this.data.study.pomodoroSessions || [])];
+  }
+
+  public addPomodoroSession(session: Omit<PomodoroSession, 'id' | 'date'>): PomodoroSession {
+    const newSession: PomodoroSession = {
+      ...session,
+      id: crypto.randomUUID(),
+      date: formatDate(new Date()),
+    };
+    this.data.study.pomodoroSessions.push(newSession);
+    this.saveData();
+    return newSession;
+  }
+
   public getCourses(): Course[] {
     return [...this.data.study.courses];
   }
@@ -622,11 +694,91 @@ export class LocalStorageManager {
 
   public updateCourse(id: string, updates: Partial<Course>): boolean {
     const index = this.data.study.courses.findIndex(c => c.id === id);
+
+    if (index >= 0 && this.data.study.courses) {
+      this.data.study.courses[index] = { ...this.data.study.courses[index], ...updates };
+      this.saveData();
+      return true;
+    }
+
+    return false;
+  }
+
+  // Vocabulary management
+  public getVocabulary(): VocabularyWord[] {
+    return [...(this.data.study.vocabulary || [])];
+  }
+
+  public addVocabularyWord(word: Omit<VocabularyWord, 'id' | 'createdAt' | 'lastReviewed' | 'reviewCount' | 'nextReviewAt' | 'intervalDays'>): VocabularyWord {
+    const now = formatDateTime(new Date());
+    const newWord: VocabularyWord = {
+      ...word,
+      id: crypto.randomUUID(),
+      createdAt: now,
+      lastReviewed: '',
+      reviewCount: 0,
+      intervalDays: 1,
+      nextReviewAt: now, // due immediately
+    } as VocabularyWord;
+
+    this.data.study.vocabulary = this.data.study.vocabulary || [];
+    this.data.study.vocabulary.push(newWord);
+    this.saveData();
+    return newWord;
+  }
+
+  public updateVocabularyWord(id: string, updates: Partial<VocabularyWord>): boolean {
+    const arr = this.data.study.vocabulary || [];
+    const index = arr.findIndex((w: VocabularyWord) => w.id === id);
     if (index === -1) return false;
-    
-    this.data.study.courses[index] = { ...this.data.study.courses[index], ...updates };
+    arr[index] = { ...arr[index], ...updates };
     this.saveData();
     return true;
+  }
+
+  public deleteVocabularyWord(id: string): boolean {
+    this.data.study.vocabulary = (this.data.study.vocabulary || []).filter(w => w.id !== id);
+    this.saveData();
+    return true;
+  }
+
+  public markVocabularyReviewed(id: string, success = true): boolean {
+    const arr = this.data.study.vocabulary || [];
+    const index = arr.findIndex((w: VocabularyWord) => w.id === id);
+    if (index === -1) return false;
+
+    const now = new Date();
+    const nowDateStr = formatDate(now);
+
+    arr[index].lastReviewed = nowDateStr;
+    arr[index].reviewCount = (arr[index].reviewCount || 0) + 1;
+
+    const prevInterval = arr[index].intervalDays || 1;
+
+    if (success) {
+      // simple doubling schedule (1,2,4,8...)
+      arr[index].intervalDays = Math.max(1, Math.round(prevInterval * 2));
+    } else {
+      // reset interval on failure
+      arr[index].intervalDays = 1;
+    }
+
+    arr[index].nextReviewAt = formatDateTime(new Date(now.getTime() + (arr[index].intervalDays || 1) * 24 * 60 * 60 * 1000));
+
+    this.saveData();
+    return true;
+  }
+
+  public getDueVocabulary(referenceDate?: Date): VocabularyWord[] {
+    const now = referenceDate || new Date();
+    return (this.data.study.vocabulary || []).filter(w => {
+      if (!w.nextReviewAt) return true;
+      return new Date(w.nextReviewAt).getTime() <= now.getTime();
+    });
+  }
+
+  public getDueVocabularyCount(): number {
+    return this.getDueVocabulary().length;
   }
 
   // Métodos para funcionalidades de registros

@@ -252,6 +252,10 @@ const Training = () => {
   const sortedWorkouts = [...workouts].sort((a, b) => b.date.localeCompare(a.date));
   const todayWorkout = workouts.find(w => w.date === today);
 
+  const getTotalReps = (exercise: Exercise) => {
+    return exercise.sets.reduce((sum, s) => sum + (s.reps || 0), 0);
+  };
+
   return (
     <Layout>
       <div className={'space-y-6'}>
@@ -504,6 +508,19 @@ const Training = () => {
                   {todayWorkout.notes}
                 </p>
               )}
+
+              {todayWorkout.exercises.length > 0 && (
+                <div className={'mt-3'}>
+                  <p className={'text-sm font-medium mb-2'}>Exercicios:</p>
+                  <div className={'flex flex-wrap gap-1'}>
+                    {todayWorkout.exercises.map((exercise, idx) => (
+                      <Badge key={idx} variant={'secondary'} className={'text-xs'} data-testid={`exercise-badge-today-${idx}`}>
+                        {exercise.name}{getTotalReps(exercise) ? ` (${getTotalReps(exercise)})` : ''}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
@@ -567,8 +584,8 @@ const Training = () => {
                               <p className={'text-sm font-medium mb-1'}>Exercicios:</p>
                               <div className={'flex flex-wrap gap-1'}>
                                 {workout.exercises.map((exercise, index) => (
-                                  <Badge key={index} variant={'secondary'} className={'text-xs'}>
-                                    {exercise.name}
+                                  <Badge key={index} variant={'secondary'} className={'text-xs'} data-testid={`exercise-badge-${workout.id}-${index}`}>
+                                    {exercise.name}{getTotalReps(exercise) ? ` (${getTotalReps(exercise)})` : ''}
                                   </Badge>
                                 ))}
                               </div>

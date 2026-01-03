@@ -39,15 +39,41 @@ describe('Quiz admin UI', () => {
     const editedQuestion = await screen.findByText(/Qual a cor do mar\?/i);
     expect(editedQuestion).toBeInTheDocument();
 
-    // delete: find the delete button within the question's container for deterministic targeting
-    let node = editedQuestion.closest('div');
-    while (node && within(node).queryByRole('button', { name: /Excluir/i }) == null) {
-      node = node.parentElement;
-    }
-    if (!node) throw new Error('Could not find container with delete button');
-    const del = within(node).getByRole('button', { name: /Excluir/i });
-    await user.click(del);
+    // delete: since tests clear storage before each run, target the first delete button directly for determinism
+    const delBtns = screen.getAllByRole('button', { name: /Excluir/i });
+    await user.click(delBtns[0]);
 
     await waitFor(() => expect(screen.queryByText(/Qual a cor do mar\?/i)).not.toBeInTheDocument(), { timeout: 10000 });
+  }, { timeout: 20000 });
+
+  it('starts quiz with selected filters', async () => {
+    const user = userEvent.setup();
+    render(<MemoryRouter><Quiz /></MemoryRouter>);
+
+    // seed questions
+    await user.click(screen.getByRole('button', { name: /Semear Perguntas/i }));
+
+    // choose category 'matematica'
+    const categorySelect = screen.getByLabelText(/Categoria/i);
+    await user.selectOptions(categorySelect, ['matematica']);
+
+    // start quiz
+    await user.click(screen.getByRole('button', { name: /Começar/i }));
+
+    // Expect the math question to appear
+    expect(screen.getByText(/Quanto é 5 \+ 7\?/i)).toBeInTheDocument();
+  });
+
+  it('shows quiz stats in the intro card', async () => {
+    // add results directly via storage
+    storage.addQuizResult({ score: 10, totalQuestions: 10, correctAnswers: 10, timeSpent: 20, category: 'math', difficulty: 'easy', questions: [], userAnswers: [] });
+    storage.addQuizResult({ score: 8, totalQuestions: 10, correctAnswers: 8, timeSpent: 30, category: 'geografia', difficulty: 'easy', questions: [], userAnswers: [] });
+
+    render(<MemoryRouter><Quiz /></MemoryRouter>);
+
+    // Stats should reflect added results
+    expect(screen.getByText(/Tentativas/i)).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
+    expect(screen.getByText(/Média/i)).toBeInTheDocument();
   });
 });

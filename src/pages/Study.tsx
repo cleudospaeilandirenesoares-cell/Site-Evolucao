@@ -40,11 +40,58 @@ import {
   BarChart3
 } from 'lucide-react';
 
+import { useEffect, useState } from 'react';
 import { FlashcardSystem } from '@/components/FlashcardSystem';
 import { LibrarySystem } from '@/components/LibrarySystem';
 import Pomodoro from '@/components/Pomodoro';
+import MiniQuiz from '@/components/MiniQuiz';
+import { storage, formatDate } from '@/lib/storage';
 
 const StudyPage = () => {
+  const [timeToday, setTimeToday] = useState('0m');
+  const [flashcardsDue, setFlashcardsDue] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [xp, setXp] = useState(0);
+
+  useEffect(() => {
+    const loadStats = () => {
+      const today = formatDate(new Date());
+      const sessions = storage.getPomodoroSessions();
+
+      // Time Today
+      const todaySessions = sessions.filter(s => s.date === today);
+      const totalToday = todaySessions.reduce((sum, s) => sum + (s.totalTime || 0), 0);
+      const hours = Math.floor(totalToday / 60);
+      const minutes = totalToday % 60;
+      setTimeToday(`${hours}h ${minutes}m`);
+
+      // Flashcards due
+      setFlashcardsDue(storage.getDueFlashcards().length);
+
+      // Streak: consecutive days with at least one session ending today
+      const datesWithSession = new Set(sessions.map(s => s.date));
+      let streakCount = 0;
+      let cursor = new Date();
+      while (true) {
+        const d = formatDate(cursor);
+        if (datesWithSession.has(d)) {
+          streakCount++;
+          cursor.setDate(cursor.getDate() - 1);
+        } else break;
+      }
+      setStreak(streakCount);
+
+      // XP: simple heuristic: total minutes across all sessions
+      const totalAll = sessions.reduce((sum, s) => sum + (s.totalTime || 0), 0);
+      setXp(totalAll);
+    };
+
+    loadStats();
+
+    const interval = setInterval(loadStats, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Layout>
       <div className={'space-y-6'}>
@@ -75,8 +122,8 @@ const StudyPage = () => {
               <Clock className={'h-4 w-4 text-muted-foreground'} />
             </CardHeader>
             <CardContent>
-              <div className={'text-2xl font-bold'}>2h 45m</div>
-              <p className={'text-xs text-muted-foreground'}>+15min vs ontem</p>
+              <div className={'text-2xl font-bold'} data-testid="study-time-today">{timeToday}</div>
+              <p className={'text-xs text-muted-foreground'}>Tempo estudado hoje</p>
             </CardContent>
           </Card>
 
@@ -86,7 +133,7 @@ const StudyPage = () => {
               <Brain className={'h-4 w-4 text-muted-foreground'} />
             </CardHeader>
             <CardContent>
-              <div className={'text-2xl font-bold'}>47</div>
+              <div className={'text-2xl font-bold'} data-testid="study-flashcards-due">{flashcardsDue}</div>
               <p className={'text-xs text-muted-foreground'}>Para revisar hoje</p>
             </CardContent>
           </Card>
@@ -97,7 +144,7 @@ const StudyPage = () => {
               <Flame className={'h-4 w-4 text-muted-foreground'} />
             </CardHeader>
             <CardContent>
-              <div className={'text-2xl font-bold'}>12</div>
+              <div className={'text-2xl font-bold'} data-testid="study-streak">{streak}</div>
               <p className={'text-xs text-muted-foreground'}>Dias consecutivos</p>
             </CardContent>
           </Card>
@@ -108,8 +155,8 @@ const StudyPage = () => {
               <Trophy className={'h-4 w-4 text-muted-foreground'} />
             </CardHeader>
             <CardContent>
-              <div className={'text-2xl font-bold'}>Avançado</div>
-              <p className={'text-xs text-muted-foreground'}>2.847 XP</p>
+              <div className={'text-2xl font-bold'} data-testid="study-xp">{xp} XP</div>
+              <p className={'text-xs text-muted-foreground'}>XP acumulado</p>
             </CardContent>
           </Card>
         </div>
@@ -152,8 +199,9 @@ const StudyPage = () => {
                     • <strong>Revisão Inteligente:</strong> Sistema revisa tópicos onde você teve mais dificuldade
                   </p>
                 </div>
-              </div>
-              <div className={'flex space-x-2'}>
+              </div>              <div className={'space-y-4'}>
+                <MiniQuiz />
+              </div>              <div className={'flex space-x-2'}>
                 <Button className={'flex-1'} variant={'outline'}>
                   <Play className={'h-4 w-4 mr-2'} />
                   Quiz Hoje

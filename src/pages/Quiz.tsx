@@ -17,9 +17,28 @@ const Quiz = () => {
     setQuestions(qs);
   }, []);
 
+  const [filterCategory, setFilterCategory] = useState<string>('all');
+  const [filterDifficulty, setFilterDifficulty] = useState<string>('any');
+
   const start = () => {
     setScore(0);
     setCurrentIndex(0);
+
+    // Load fresh questions and apply filters
+    const qs = storage.getQuizQuestions();
+    const filtered = qs.filter(q => {
+      if (filterCategory !== 'all' && q.category !== filterCategory) return false;
+      if (filterDifficulty !== 'any' && q.difficulty !== filterDifficulty) return false;
+      return true;
+    });
+
+    if (filtered.length === 0) {
+      // No questions for selected filters
+      // Keep started false and do nothing
+      return;
+    }
+
+    setQuestions(filtered);
     setStarted(true);
   };
 
@@ -153,9 +172,48 @@ const Quiz = () => {
             </CardHeader>
             <CardContent>
               <p>Este é um MVP do motor de Quiz. Comece para responder perguntas aleatórias.</p>
-              <div className="mt-4 space-x-2">
-                <Button onClick={start} className="gradient-primary text-white border-0">Começar</Button>
-                <Button onClick={handleSeed} variant={'outline'}>Semear Perguntas</Button>
+
+              {/* Small Stats */}
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+                <div className="p-3 border rounded">
+                  <div className="text-xs text-muted-foreground">Tentativas</div>
+                  <div className="text-lg font-semibold">
+                    {storage.getQuizStats().totalAttempts}
+                  </div>
+                </div>
+                <div className="p-3 border rounded">
+                  <div className="text-xs text-muted-foreground">Média</div>
+                  <div className="text-lg font-semibold">{storage.getQuizStats().averageScore} pts</div>
+                </div>
+                <div className="p-3 border rounded">
+                  <div className="text-xs text-muted-foreground">Melhor</div>
+                  <div className="text-lg font-semibold">{storage.getQuizStats().bestScore} pts</div>
+                </div>
+              </div>
+
+              {/* Filters */}
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 items-end">
+                <div>
+                  <label htmlFor="filter-category" className="block text-sm font-medium">Categoria</label>
+                  <select id="filter-category" className="input w-full" value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
+                    {['all', ...Array.from(new Set(storage.getQuizQuestions().map(q => q.category)))].map(c => (
+                      <option key={c} value={c}>{c === 'all' ? 'Todas' : c}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="filter-difficulty" className="block text-sm font-medium">Dificuldade</label>
+                  <select id="filter-difficulty" className="input w-full" value={filterDifficulty} onChange={(e) => setFilterDifficulty(e.target.value)}>
+                    {['any', 'easy', 'medium', 'hard'].map(d => (
+                      <option key={d} value={d}>{d === 'any' ? 'Qualquer' : d}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex space-x-2">
+                  <Button onClick={start} className="gradient-primary text-white border-0">Começar</Button>
+                  <Button onClick={handleSeed} variant={'outline'}>Semear Perguntas</Button>
+                </div>
               </div>
             </CardContent>
           </Card>

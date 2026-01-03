@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { Flashcard } from '@/types';
 import { storage } from '@/lib/storage';
+import { playClick, playSuccess, playFail } from '@/lib/sound';
 
 export const FlashcardSystem = () => {
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
@@ -27,6 +28,7 @@ export const FlashcardSystem = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [newCard, setNewCard] = useState({ question: '', answer: '', category: 'Geral', difficulty: 'medium' as 'easy' | 'medium' | 'hard' });
   const [filterCategory, setFilterCategory] = useState('all');
+  const [groupBy, setGroupBy] = useState<'none' | 'category'>('none');
 
   useEffect(() => {
     loadFlashcards();
@@ -54,6 +56,11 @@ export const FlashcardSystem = () => {
     const result = difficulty === 'easy' ? 'easy' : difficulty === 'medium' ? 'good' : 'hard';
 
     storage.scheduleReviewResult(currentCard.id, result as 'again' | 'hard' | 'good' | 'easy');
+
+    // sounds
+    playClick();
+    if (result === 'easy') playSuccess();
+    else if (result === 'hard') playFail();
 
     setShowAnswer(false);
     setCurrentCardIndex((prev) => (prev + 1) % Math.max(1, cardsForReview.length));
@@ -179,12 +186,23 @@ export const FlashcardSystem = () => {
             <select 
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="p-2 border rounded-md text-sm"
+              className="p-2 border rounded-md text-sm bg-transparent"
+              data-testid="flashcard-filter-category"
             >
               <option value="all">Todas as categorias</option>
               {categories.map(cat => (
                 <option key={cat} value={cat}>{cat}</option>
               ))}
+            </select>
+
+            <select
+              value={groupBy}
+              onChange={(e) => setGroupBy(e.target.value as 'none' | 'category')}
+              className="p-2 border rounded-md text-sm bg-transparent"
+              data-testid="flashcard-groupby"
+            >
+              <option value="none">Agrupar: Nenhum</option>
+              <option value="category">Agrupar por Categoria</option>
             </select>
           </div>
           
@@ -193,6 +211,16 @@ export const FlashcardSystem = () => {
             <span>Para revisar: {cardsForReview.length}</span>
           </div>
         </div>
+
+        {groupBy === 'category' && (
+          <div className="flex flex-wrap gap-2 mt-2" data-testid="flashcard-groups">
+            {categories.map(cat => (
+              <Button key={cat} size="sm" variant={filterCategory === cat ? 'secondary' : 'ghost'} onClick={() => setFilterCategory(filterCategory === cat ? 'all' : cat)} data-testid={`flashcard-group-${cat}`}>
+                {cat} ({flashcards.filter(f => f.category === cat).length})
+              </Button>
+            ))}
+          </div>
+        )}
 
         {/* Card Atual */}
         {cardsForReview.length > 0 ? (

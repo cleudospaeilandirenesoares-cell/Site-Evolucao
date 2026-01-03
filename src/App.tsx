@@ -12,6 +12,7 @@ import Goals from "./pages/Goals";
 import Stats from "./pages/Stats";
 import Study from "./pages/Study";
 import Quiz from "./pages/Quiz";
+import Vocabulary from "./pages/Vocabulary";
 import Records from "./pages/Records";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/stats" element={<Stats />} />
           <Route path="/study" element={<Study />} />
           <Route path="/quiz" element={<Quiz />} />
+          <Route path="/vocabulary" element={<Vocabulary />} />
           <Route path="/records" element={<Records />} />
           <Route path="/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

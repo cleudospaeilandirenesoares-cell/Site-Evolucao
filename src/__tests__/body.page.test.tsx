@@ -76,16 +76,13 @@ describe('Body page (UI)', () => {
     const allBefore = storage.getBodyMeasurements();
     expect(allBefore.find(m => m.id === added.id)).toBeDefined();
 
-    // ensure there's exactly one delete trigger for this id
-    const deleteTriggers = screen.getAllByLabelText(new RegExp(added.id));
-    expect(deleteTriggers.length).toBe(1);
-    const deleteTrigger = deleteTriggers[0];
-
+    // ensure there's exactly one delete trigger for this id (deterministic by testid)
+    const deleteTrigger = screen.getByTestId(`delete-button-${added.id}`);
     await user.click(deleteTrigger);
 
-    // Confirm dialog confirm button is targeted by accessible aria-label
+    // Confirm dialog confirm button is targeted by testid
     const dialog = await screen.findByRole('alertdialog');
-    const confirmButton = within(dialog).getByRole('button', { name: new RegExp(added.id) });
+    const confirmButton = within(dialog).getByTestId(`confirm-delete-${added.id}`);
 
     // spy on deleteBodyMeasurement to ensure it's invoked for correct id
     const spy = vi.spyOn(storage, 'deleteBodyMeasurement');
@@ -98,6 +95,6 @@ describe('Body page (UI)', () => {
     spy.mockRestore();
 
     // The measurement's delete trigger should be gone (stable selector tied to id)
-    await waitFor(() => expect(screen.queryAllByLabelText(new RegExp(added.id)).length).toBe(0), { timeout: 2000 });
+    await waitFor(() => expect(screen.queryByTestId(`delete-button-${added.id}`)).toBeNull(), { timeout: 2000 });
   });
 });

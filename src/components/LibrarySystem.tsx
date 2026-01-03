@@ -176,7 +176,8 @@ export const LibrarySystem = () => {
           <select 
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="p-2 border rounded-md"
+            className="p-2 border rounded-md bg-transparent"
+            data-testid="library-filter-select"
           >
             <option value="all">Todos</option>
             <option value="reading">Lendo</option>
@@ -252,7 +253,8 @@ export const LibrarySystem = () => {
                 id="status"
                 value={newBook.status}
                 onChange={(e) => setNewBook({...newBook, status: e.target.value as Book['status']})}
-                className="w-full p-2 border rounded-md"
+                className="w-full p-2 border rounded-md bg-transparent"
+                data-testid="library-status-select"
               >
                 <option value="planned">Planejado</option>
                 <option value="reading">Lendo</option>

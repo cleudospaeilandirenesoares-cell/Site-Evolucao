@@ -14,6 +14,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { storage } from '@/lib/storage';
 import { Habit, HabitCompletion } from '@/types';
 import { toast } from 'sonner';
+import { playClick, playSuccess } from '@/lib/sound';
 import { 
   Plus, 
   Edit, 
@@ -163,8 +164,10 @@ const Habits = () => {
     const newStatus = completion?.status === 'completed' ? 'not_completed' : 'completed';
     
     storage.completeHabit(habitId, newStatus);
-    
+    // play interactive sound feedback
+    playClick();
     if (newStatus === 'completed') {
+      playSuccess();
       toast.success('Hábito concluído! 🎉', {
         description: 'Parabéns por manter a consistência!'
       });

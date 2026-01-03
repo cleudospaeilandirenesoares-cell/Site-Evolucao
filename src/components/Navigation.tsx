@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { storage } from '@/lib/storage';
 import { 
   Home, 
   CheckSquare, 
@@ -27,6 +28,7 @@ const navigation = [
   { name: 'Diario', href: '/journal', icon: BookOpen },
   { name: 'Metas', href: '/goals', icon: Target },
   { name: 'Estudos', href: '/study', icon: GraduationCap },
+  { name: 'Vocabulário', href: '/vocabulary', icon: BookOpen },
   { name: 'Quiz', href: '/quiz', icon: GraduationCap },
   { name: 'Registros', href: '/records', icon: Camera },
   { name: 'Estatisticas', href: '/stats', icon: BarChart3 },
@@ -35,7 +37,15 @@ const navigation = [
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const [dueCount, setDueCount] = useState(0);
   const location = useLocation();
+
+  useEffect(() => {
+    const update = () => setDueCount(storage.getDueVocabularyCount());
+    update();
+    const id = setInterval(update, 30_000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <>
@@ -92,6 +102,11 @@ export function Navigation() {
                 >
                   <Icon className={'h-4 w-4'} />
                   <span>{item.name}</span>
+                  {item.name === 'Vocabulário' && dueCount > 0 && (
+                    <Badge variant={'destructive'} className={'ml-auto text-xs'}>
+                      {dueCount}
+                    </Badge>
+                  )}
                   {isActive && (
                     <Badge variant={'secondary'} className={'ml-auto text-xs'}>
                       Ativo

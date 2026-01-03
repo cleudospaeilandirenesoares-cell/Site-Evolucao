@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "preview:dev": "npm run build:dev && npm run preview",
-    "test": "vitest",
+    "test": "set NODE_OPTIONS=--max_old_space_size=4096 && vitest",
     "test:edge-functions": "cd supabase/edge_function && deno task test"
   },
   "dependencies": {

@@ -43,6 +43,7 @@ jobs:
         run: pnpm install --frozen-lockfile --store-dir ~/.pnpm-store
 
       - name: Run tests
-        run: pnpm exec vitest --run
         env:
           CI: true
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: pnpm exec vitest --run

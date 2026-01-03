@@ -1,6 +1,7 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 // use synchronous fireEvent with fake timers to avoid user-event timing issues in tests
 import { describe, it, beforeEach, afterEach, vi, expect } from 'vitest';
+import { storage } from '@/lib/storage';
 import Pomodoro from '@/components/Pomodoro';
 
 describe('Pomodoro', () => {
@@ -28,6 +29,9 @@ describe('Pomodoro', () => {
 
     // With 0s duration it should immediately switch mode to break and set break duration (0) -> 00:00
     expect(screen.getAllByText(/00:00/).length).toBeGreaterThanOrEqual(1);
+
+    // session should be persisted (wait briefly for state side-effects)
+    await waitFor(() => expect(storage.getPomodoroSessions().length).toBeGreaterThanOrEqual(1));
   });
 
   it('pauses and resets correctly', async () => {
